@@ -4,22 +4,34 @@ const BinarySearch = (props) => {
 	const [ Input, setInput ] = useState('');
 	const [ Item, steItem ] = useState('');
 	const [ Array, setArray ] = useState([]);
-	const [ index, setIndex ] = useState(null);
+	const [ number, setNumber ] = useState(null);
 
 	// handles input
 	const inputHandler = () => {
-		console.log(Input);
 		setArray(Input.split(','));
-		sequential_search(Array, Item, Array.length);
+		binarySearch(Array, Item);
 	};
-	const sequential_search = (A, X, N) => {
-		let count = 1;
-		for (var I = 0; I < N; I++) {
-			if (A[I] === X) {
-				setIndex(count);
-			}
+	const binarySearch = (list, item) => {
+		let count = 0;
+		console.log(list.sort());
+		let low = 0;
+		let high = list.length - 1;
+
+		while (low <= high) {
 			count++;
+			let mid = Math.floor((low + high) / 2);
+			let guess = list[mid];
+			if (guess === item) {
+				setNumber(count);
+				return mid;
+			} else if (guess > item) {
+				high = mid - 1;
+			} else {
+				low = mid + 1;
+			}
 		}
+
+		return null;
 	};
 
 	return (
@@ -45,9 +57,9 @@ const BinarySearch = (props) => {
 			<button className="ui button" onClick={inputHandler} style={{ margin: '2rem', width: '30%' }}>
 				Calculate
 			</button>
-			{index && (
+			{number && (
 				<div style={{ color: 'green' }}>
-					No of comparision made : <span style={{ fontWeight: 'bold' }}>{index}</span>
+					No of comparision : <span style={{ fontWeight: 'bold' }}>{number}</span>
 				</div>
 			)}
 		</div>
